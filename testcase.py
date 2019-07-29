@@ -80,7 +80,9 @@ class TestCase(object):
         '''
         
         # Set final time
-        self.final_time = self.start_time + self.step
+        print type(self.start_time)
+        print type(self.step)
+        self.final_time = float(self.start_time) + float(self.step)
         # Set control inputs if they exist and are written
         # Check if possible to overwrite
         if u.keys():
@@ -132,12 +134,22 @@ class TestCase(object):
         
         return self.y
 
-    def reset(self):
+    def reset(self,reset_time):
         '''Reset the test.
         
         '''
         
         self.__init__()
+        self.fmu = load_fmu(self.fmupath, enable_logging=True)
+        self.initialize = True
+        self.start_time = float(reset_time)
+        if reset_time>0:
+              self.fmu.simulate(start_time=0, 
+                                final_time=self.start_time, 
+                                options=self.options,
+                                input=None) 
+              self.initialize = False
+        
 
     def get_step(self):
         '''Returns the current simulation step in seconds.'''
