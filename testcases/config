@@ -1,0 +1,14 @@
+{
+"testcase1":{
+    "fmupath" : "testcases/testcase1/models/wrapped.fmu",
+    "step" : 60,
+    "horizon" : 86400,
+    "interval" : 3600
+    },
+"testcase2":{
+    "fmupath" : "testcases/testcase2/models/wrapped.fmu", 
+    "step" : 3600,
+    "horizon" : 86400,
+    "interval" : 3600
+    }
+}

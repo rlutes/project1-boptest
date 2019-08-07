@@ -9,7 +9,7 @@ information, and calculating and reporting results.
 from pyfmi import load_fmu
 import numpy as np
 import copy
-import config
+#import config
 from scipy.integrate import trapz
 from data.data_manager import Data_Manager
 from forecast.forecaster import Forecaster
@@ -19,13 +19,12 @@ class TestCase(object):
     
     '''
     
-    def __init__(self):
+    def __init__(self,con):
         '''Constructor.
         
         '''
         
         # Get configuration information
-        con = config.get_config()
         # Define simulation model
         self.fmupath = con['fmupath']
         # Load fmu
@@ -138,12 +137,12 @@ class TestCase(object):
         
         return self.y
 
-    def reset(self):
+    def reset(self,con):
         '''Reset the test.
         
         '''
         
-        self.__init__()
+        self.__init__(con)
 
     def get_step(self):
         '''Returns the current simulation step in seconds.'''

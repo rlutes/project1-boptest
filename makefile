@@ -1,4 +1,4 @@
-IMG_NAME=boptest_${TESTCASE}
+IMG_NAME=boptest
 
 COMMAND_RUN=docker run \
 	  --name ${IMG_NAME} \
@@ -7,7 +7,7 @@ COMMAND_RUN=docker run \
 	  -p 127.0.0.1:5000:5000
 
 build:
-	docker build --build-arg testcase=${TESTCASE} --no-cache --rm -t ${IMG_NAME} .
+	docker build --no-cache --rm -t ${IMG_NAME} .
 
 remove-image:
 	docker rmi ${IMG_NAME}

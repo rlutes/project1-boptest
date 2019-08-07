@@ -49,9 +49,15 @@ def run(plot=False):
     # GET TEST INFORMATION
     # --------------------
     print('\nTEST CASE INFORMATION\n---------------------')
-    # Test case name
+    # Available test case name
+    emulator = requests.get('{0}/emulator'.format(url)).json()
+    print('Emulator:\t\t\t\t{0}'.format(emulator))
     name = requests.get('{0}/name'.format(url)).json()
     print('Name:\t\t\t\t{0}'.format(name))
+    # Select test case name
+    res = requests.put('{0}/name'.format(url), data={'name':'testcase2'})
+    name = requests.get('{0}/name'.format(url)).json()
+    print('Name change to:\t\t\t\t{0}'.format(name))
     # Inputs available
     inputs = requests.get('{0}/inputs'.format(url)).json()
     print('Control Inputs:\t\t\t{0}'.format(inputs))

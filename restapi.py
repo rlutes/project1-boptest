@@ -24,11 +24,19 @@ api = Api(app)
 
 # INSTANTIATE TEST CASE
 # ---------------------
-case = TestCase()
+import json
+
+with open('testcases/config') as json_file:
+    testcase_config = json.load(json_file)
+case_name=testcase_config.keys()[0]
+case = TestCase(testcase_config[case_name])
 # ---------------------
 
 # DEFINE ARGUMENT PARSERS
 # -----------------------
+# ``name`` interface
+parser_name = reqparse.RequestParser()
+parser_name.add_argument('name')
 # ``step`` interface
 parser_step = reqparse.RequestParser()
 parser_step.add_argument('step')
@@ -60,7 +68,7 @@ class Reset(Resource):
     
     def put(self):
         '''PUT request to reset the test.'''
-        case.reset()
+        case.reset(testcase_config[case_name])
         return 'Testcase reset.'
 
 class Step(Resource):
@@ -140,8 +148,31 @@ class Name(Resource):
     
     def get(self):
         '''GET request to receive test case name.'''
-        name = case.get_name()
-        return name
+        global case_name
+        return case_name
+
+    def put(self):
+        '''PUT request to change the test case name.'''
+        args = parser_name.parse_args()
+        global case_name
+        case_name=str(args['name'])
+
+        global case
+        case = TestCase(testcase_config[case_name])
+
+        parser_advance = reqparse.RequestParser()
+        for key in case.u.keys():
+               parser_advance.add_argument(key)        
+        return 200
+
+class Emulator(Resource):
+    '''Interface to test case name.'''
+    
+    def get(self):
+        '''GET request to receive test case name.'''
+        emulator = testcase_config.keys()
+        return emulator
+
 # --------------------
         
 # ADD REQUESTS TO API WITH URL EXTENSION
@@ -156,6 +187,7 @@ api.add_resource(KPI, '/kpi')
 api.add_resource(Forecast_Parameters, '/forecast_parameters')
 api.add_resource(Forecast, '/forecast')
 api.add_resource(Name, '/name')
+api.add_resource(Emulator, '/emulator')
 # --------------------------------------
 
 if __name__ == '__main__':

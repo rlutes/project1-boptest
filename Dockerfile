@@ -1,6 +1,6 @@
 FROM michaelwetter/ubuntu-1604_jmodelica_trunk
 
-ARG testcase
+#ARG testcase
 
 ENV ROOT_DIR /usr/local
 ENV JMODELICA_HOME $ROOT_DIR/JModelica
@@ -16,12 +16,10 @@ WORKDIR $HOME
 
 RUN pip install --user flask-restful pandas
 
-RUN mkdir models && \
-    mkdir doc
-
-COPY ${testcase}/models/*.fmu models/
-COPY ${testcase}/doc/ doc/
-COPY ${testcase}/config.py ./
+#COPY ${testcase}/models/*.fmu models/
+#COPY ${testcase}/doc/ doc/
+#COPY ${testcase}/config.py ./
+COPY testcases ./testcases
 COPY restapi.py ./
 COPY testcase.py ./
 
